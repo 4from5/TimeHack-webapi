@@ -1,0 +1,1 @@
+echo "DROP TABLE IF EXISTS schema_migrations" | psql -Upostgres -qqqqqqqq timehack_db
