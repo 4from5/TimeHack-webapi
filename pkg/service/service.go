@@ -11,8 +11,13 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
+type Categories interface {
+	GetAll(user webApi.User) error
+}
+
 type Service struct {
 	Authorization
+	Categories
 }
 
 func NewService(repos *repository.Repository) *Service {

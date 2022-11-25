@@ -24,6 +24,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	api := router.Group("/api", h.userIdentity)
 	{
 		api.Group("categories")
+		{
+			auth.GET("/", h.getCategories)
+		}
 		api.Group("events")
 		api.Group("notions")
 		api.Group("tasks")

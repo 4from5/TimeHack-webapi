@@ -59,12 +59,12 @@ CREATE TABLE notions
 INSERT
 INTO users(username, email, password_hash)
 VALUES ('Cockpit', 'cockpit@mail.ru',
-        '01C057776D3CB24BF6546A1442D6E8BBD3CB90D95F128FA6FCDB64623651540E84D7BA44D00E4CFFD1E51ECE965082E875712141B253A1FE3C75F5F1701D4B26');
+        '73616c745f666f725f68617368a536a2c57d148f488a7b214a07356710a331f1256a6d39d647fee4c2da52cdc7511afe0aa59bddfc14bd3844c9cdb4ef54f049c1453a65b75c8634c5ab056837');
 
 INSERT
 INTO users(username, password_hash)
 VALUES ('Bashmak',
-        'EEEAEFD769DDD20E546C7986A2E1ACD4762A35C9F755FF36EC138A0C8EF1FFD0ECFBA8CCD4CCAF1BAA7A0783796B476602C1B0E37F8DAAFF9A54FA58A26C9110');
+        '73616c745f666f725f686173680b1db6b6a02119319d66c86f39f296c612294fb8097c63971f8ed96180185bf1c21e3347248cf3ac8ef2d870ca5c1929474da9cd46fe6f5ab7c233d69cab39c9');
 
 --                  Categories
 INSERT
@@ -77,6 +77,15 @@ VALUES (1, 'Личное', 'blue'),
        (2, 'Отдых', 'violet');
 
 --                  Tasks
+INSERT INTO tasks(user_id, category_id, title, description, deadline, date_time, priority)
+VALUES (1, 1, 'Встретиться с кентом', 'ну это с Тёмиком короче пересечься бы', '30 Nov 22',
+        '25 Nov 22', 2),
+       (1, 1, 'Жёстко заняться саморазвитием', null, null,
+        '27 Nov 22', 3),
+       (1, 2, 'Курсач по ААСОИУ', 'Шуку надо чот написать так и не понял тип того', '29 Dec 22',
+        '27 Nov 22', 1),
+       (1, 2, 'Курсач по ААСОИУ', 'Шуку надо чот написать так и не понял тип того', '29 Dec 22',
+        '27 Nov 22', 1);
 
 
 --                  Notions
