@@ -12,7 +12,7 @@ type Authorization interface {
 }
 
 type Categories interface {
-	GetAll(user webApi.User) error
+	Create(userId int, category webApi.Category) (int, error)
 }
 
 type Service struct {
@@ -23,5 +23,6 @@ type Service struct {
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
+		Categories:    NewCategoryService(repos.Category),
 	}
 }
