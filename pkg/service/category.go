@@ -25,6 +25,19 @@ func (s *CategoryService) GetAll(userId int) ([]webApi.Category, error) {
 }
 
 func (s *CategoryService) GetById(userId, id int) (webApi.Category, error) {
-	fmt.Println("service.CategoryService.GetById: userId, id:", userId, ' ', id)
+	fmt.Println("service.CategoryService.GetById: userId, id:", userId, " ", id)
 	return s.repo.GetById(userId, id)
+}
+
+func (s *CategoryService) Delete(userId, id int) error {
+	fmt.Println("service.CategoryService.Delete: userId, id:", userId, " ", id)
+	return s.repo.Delete(userId, id)
+}
+
+func (s *CategoryService) Update(userId, id int, input webApi.UpdateCategoryInput) error {
+	fmt.Println("service.CategoryService.Update: userId, id, input:", userId, " ", id, " ", input)
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, id, input)
 }

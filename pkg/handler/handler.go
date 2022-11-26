@@ -32,14 +32,21 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			categories.GET("/:id", h.getCategoryById)
 
 			categories.POST("/", h.createCategory)
+
+			categories.DELETE("/:id", h.deleteCategory)
+
+			categories.PUT("/:id", h.updateCategory)
 		}
 
 		events := api.Group("/events")
 		{
 			events.GET("/", h.getEvents)
 			events.GET("/:id", h.getEventById)
+
 			events.POST("/:id", h.createEvent)
 			events.POST("/schedule", h.getSchedule)
+
+			events.DELETE("/:id", h.deleteEvent)
 
 		}
 
@@ -49,6 +56,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			notions.GET("/:id", h.getNotionById)
 
 			notions.POST("/", h.createNotion)
+
+			notions.DELETE("/:id", h.deleteNotion)
+
 		}
 		tasks := api.Group("/tasks")
 		{
@@ -56,6 +66,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			tasks.GET("/:id", h.getTaskById)
 
 			tasks.POST("/", h.createTask)
+
+			tasks.DELETE("/:id", h.deleteNotion)
+
 		}
 	}
 	return router

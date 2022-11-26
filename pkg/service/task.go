@@ -28,3 +28,7 @@ func (s *TaskService) Create(userId int, task webApi.Task) (int, error) {
 	fmt.Println("service.TaskService.Create: get", userId, " ", task)
 	return s.repo.Create(userId, task)
 }
+func (s *TaskService) Delete(userId, id int) error {
+	fmt.Println("service.TaskService.Delete: userId, id:", userId, " ", id)
+	return s.repo.Delete(userId, id)
+}

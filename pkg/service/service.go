@@ -15,6 +15,8 @@ type Categories interface {
 	Create(userId int, category webApi.Category) (int, error)
 	GetAll(userId int) ([]webApi.Category, error)
 	GetById(userId, id int) (webApi.Category, error)
+	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateCategoryInput) error
 }
 
 type Events interface {
@@ -22,17 +24,20 @@ type Events interface {
 	GetAll(userId int) ([]webApi.Event, error)
 	GetById(userId, id int) (webApi.Event, error)
 	GetSchedule(userId int, group webApi.Group) ([]webApi.Event, error)
+	Delete(userId, id int) error
 }
 type Notions interface {
 	GetAll(userId int) ([]webApi.Notion, error)
 	GetById(userId, id int) (webApi.Notion, error)
 	Create(userId int, notion webApi.Notion) (int, error)
+	Delete(userId, id int) error
 }
 
 type Tasks interface {
 	GetAll(userId int) ([]webApi.Task, error)
 	GetById(userId, id int) (webApi.Task, error)
 	Create(userId int, task webApi.Task) (int, error)
+	Delete(userId, id int) error
 }
 
 type Service struct {

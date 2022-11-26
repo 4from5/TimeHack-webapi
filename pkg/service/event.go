@@ -39,3 +39,8 @@ func (s *EventService) GetSchedule(userId int, group webApi.Group) ([]webApi.Eve
 	}
 	return s.repo.GetAll(userId)
 }
+
+func (s *EventService) Delete(userId, id int) error {
+	fmt.Println("service.EventService.Delete: userId, id:", userId, " ", id)
+	return s.repo.Delete(userId, id)
+}
