@@ -22,11 +22,17 @@ type Events interface {
 	GetAll(userId int) ([]webApi.Event, error)
 	GetById(userId, id int) (webApi.Event, error)
 }
+type Notions interface {
+	GetAll(userId int) ([]webApi.Notion, error)
+	GetById(userId, id int) (webApi.Notion, error)
+	Create(userId int, notion webApi.Notion) (int, error)
+}
 
 type Service struct {
 	Authorization
 	Categories
-	Events
+	Event
+	Notions
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -34,5 +40,6 @@ func NewService(repos *repository.Repository) *Service {
 		Authorization: NewAuthService(repos.Authorization),
 		Categories:    NewCategoryService(repos.Category),
 		Events:        NewEventService(repos.Event),
+		Notions:       NewNotionService(repos.Notion),
 	}
 }
