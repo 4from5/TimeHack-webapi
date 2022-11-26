@@ -14,7 +14,7 @@ type Repository struct {
 	Authorization
 	Category
 	//Task
-	//Notion
+	Notion
 	//Event
 }
 
@@ -24,9 +24,16 @@ type Category interface {
 	GetById(userId, id int) (webApi.Category, error)
 }
 
+type Notion interface {
+	GetAll(userId int) ([]webApi.Notion, error)
+	GetById(userId int, id int) (webApi.Notion, error)
+	Create(userId int, notion webApi.Notion) (int, error)
+}
+
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgress(db),
 		Category:      NewCategoryPostgres(db),
+		Notion:        NewNotionPostgres(db),
 	}
 }

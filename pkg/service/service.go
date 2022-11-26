@@ -17,14 +17,22 @@ type Categories interface {
 	GetById(userId, id int) (webApi.Category, error)
 }
 
+type Notions interface {
+	GetAll(userId int) ([]webApi.Notion, error)
+	GetById(userId, id int) (webApi.Notion, error)
+	Create(userId int, notion webApi.Notion) (int, error)
+}
+
 type Service struct {
 	Authorization
 	Categories
+	Notions
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		Categories:    NewCategoryService(repos.Category),
+		Notions:       NewNotionService(repos.Notion),
 	}
 }
