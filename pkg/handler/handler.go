@@ -3,6 +3,7 @@ package handler
 import (
 	"github.com/4from5/TimeHack-webapi/pkg/service"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 type Handler struct {
@@ -13,8 +14,18 @@ func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
 
+func LiberalCORS(c *gin.Context) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	if c.Request.Method == "OPTIONS" {
+		if len(c.Request.Header["Access-Control-Request-Headers"]) > 0 {
+			c.Header("Access-Control-Allow-Headers", c.Request.Header["Access-Control-Request-Headers"][0])
+		}
+		c.AbortWithStatus(http.StatusOK)
+	}
+}
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
+	router.Use(LiberalCORS)
 
 	auth := router.Group("/auth")
 	{
@@ -23,13 +34,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 	}
 	api := router.Group("/api", h.userIdentity)
 	{
-		api.Group("categories")
+		categories := api.Group("/categories")
 		{
-			auth.GET("/", h.getCategories)
+			categories.GET("/", h.getCategories)
+			categories.POST("/", h.createCategory)
 		}
-		api.Group("events")
-		api.Group("notions")
-		api.Group("tasks")
 	}
 	return router
 }

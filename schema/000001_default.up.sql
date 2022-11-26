@@ -2,7 +2,7 @@ CREATE TABLE users
 (
     user_id       serial PRIMARY KEY UNIQUE,
     username      text UNIQUE NOT NULL,
-    email         text UNIQUE,
+    email         text ,
     password_hash text        NOT NULL
 );
 
@@ -63,8 +63,8 @@ VALUES ('Cockpit', 'cockpit@mail.ru',
 
 INSERT
 INTO users(username, password_hash)
-VALUES ('Bashmak',
-        '73616c745f666f725f686173680b1db6b6a02119319d66c86f39f296c612294fb8097c63971f8ed96180185bf1c21e3347248cf3ac8ef2d870ca5c1929474da9cd46fe6f5ab7c233d69cab39c9');
+VALUES ('Bashmak1',
+        '73616c745f666f725f68617368c1708d426030b4d70f5b7fc5b21475e2da1fa1a2959f3616346209566c69f03fa02d129cded76c4836de53a1cd376f84be188cff6a735ab25eb61476eb932de6');
 
 --                  Categories
 INSERT

@@ -15,6 +15,7 @@ func NewAuthPostgress(db *sqlx.DB) *AuthPostgres {
 }
 
 func (r *AuthPostgres) CreateUser(user webApi.User) (int, error) {
+	fmt.Println("repository.AuthPostgres.CreateUser: get", user)
 	var returnedId int
 	query := fmt.Sprintf("INSERT INTO %s (username, email, password_hash) values ($1, $2, $3) 	RETURNING user_id", usersTable)
 	row := r.db.QueryRow(query, user.Username, user.Email, user.Password)
@@ -26,6 +27,7 @@ func (r *AuthPostgres) CreateUser(user webApi.User) (int, error) {
 }
 
 func (r *AuthPostgres) GetUser(username, password string) (webApi.User, error) {
+	fmt.Println("repository.AuthPostgres.GetUser: get", username, password)
 	var user webApi.User
 	query := fmt.Sprintf("SELECT user_id FROM %s WHERE username = $1 AND password_hash = $2", usersTable)
 	err := r.db.Get(&user, query, username, password)

@@ -16,7 +16,8 @@ func NewCategoryPostgres(db *sqlx.DB) *CategoryPostgres {
 
 func (r *CategoryPostgres) Create(userId int, category webApi.Category) (int, error) {
 	var returnedId int
-	createCategoryQuery := fmt.Sprintf("INSERT INTO %s (user_id, title, color) VALUES($1,$2,$3) RETURNING category_id", categoriesTable)
+	fmt.Println("repository.CategoryPostgres.Create: get", userId, category)
+	createCategoryQuery := fmt.Sprintf("INSERT INTO %s (user_id, title, colour) VALUES($1,$2,$3) RETURNING category_id", categoriesTable)
 	row := r.db.QueryRow(createCategoryQuery, userId, category.Title, category.Colour)
 	if err := row.Scan(&returnedId); err != nil {
 		return 0, err

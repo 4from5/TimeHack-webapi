@@ -25,5 +25,6 @@ type Category interface {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgress(db),
+		Category:      NewCategoryPostgres(db),
 	}
 }

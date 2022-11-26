@@ -1,6 +1,7 @@
 package service
 
 import (
+	"fmt"
 	webApi "github.com/4from5/TimeHack-webapi"
 	"github.com/4from5/TimeHack-webapi/pkg/repository"
 )
@@ -14,5 +15,6 @@ func NewCategoryService(repo repository.Category) *CategoryService {
 }
 
 func (s *CategoryService) Create(userId int, category webApi.Category) (int, error) {
+	fmt.Println("service.CategoryService.Create: get", userId, " ", category)
 	return s.repo.Create(userId, category)
 }

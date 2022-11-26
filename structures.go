@@ -4,7 +4,7 @@ import "time"
 
 type Category struct {
 	Id     int    `json:"id" db:"category_id,omitempty"`
-	UserId int    `json:"user_id" db:"user_id" binding:"required"`
+	UserId int    `json:"user_id" db:"user_id"`
 	Title  string `json:"title" db:"title" binding:"required"`
 	Colour string `json:"colour" db:"colour"`
 }
