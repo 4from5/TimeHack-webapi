@@ -59,7 +59,7 @@ func readLines(path string) ([]string, error) {
 	return lines, scanner.Err()
 }
 
-func Scraper(groupname string) []webapi.Event {
+func Scraper(groupname webapi.Group) []webapi.Event {
 	Schedule := make([]webapi.Event, 0)
 	var event webapi.Event
 	var link string
@@ -79,7 +79,7 @@ func Scraper(groupname string) []webapi.Event {
 			}
 		}
 
-		if string(gr) == groupname {
+		if string(gr) == groupname.GroupName {
 			link = e.Attr("href")
 			link = "https://lks.bmstu.ru" + link + ".ics"
 			fmt.Println(link)
@@ -144,7 +144,7 @@ func Scraper(groupname string) []webapi.Event {
 					layout := "20060102"
 					event.EndPeriodTimestamp, _ = time.Parse(layout, endDay[1])
 					event.EndPeriodTimestamp = event.EndPeriodTimestamp.In(loc)
-					event.CategoryId = 2
+					event.CategoryId = groupname.CategoryId
 					Schedule = append(Schedule, event)
 
 				}

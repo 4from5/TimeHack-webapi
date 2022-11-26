@@ -45,5 +45,6 @@ type Notion struct {
 }
 
 type Group struct {
-	GroupName string `json:"group_name"`
+	GroupName  string `json:"group_name"`
+	CategoryId int    `json:"category_id"`
 }

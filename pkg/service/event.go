@@ -29,8 +29,8 @@ func (s *EventService) GetById(userId int, id int) (webApi.Event, error) {
 }
 
 func (s *EventService) GetSchedule(userId int, group webApi.Group) ([]webApi.Event, error) {
-	fmt.Println("service.EventService.Schedule: group:", group.GroupName)
-	events := Scraper(group.GroupName)
+	fmt.Println("service.EventService.Schedule: group:", group)
+	events := Scraper(group)
 	for i, _ := range events {
 		_, err := s.repo.Create(userId, events[i])
 		if err != nil {
