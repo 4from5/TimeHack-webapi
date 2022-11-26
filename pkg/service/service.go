@@ -17,14 +17,22 @@ type Categories interface {
 	GetById(userId, id int) (webApi.Category, error)
 }
 
+type Events interface {
+	Create(userId int, event webApi.Event) (int, error)
+	GetAll(userId int) ([]webApi.Event, error)
+	GetById(userId, id int) (webApi.Event, error)
+}
+
 type Service struct {
 	Authorization
 	Categories
+	Events
 }
 
 func NewService(repos *repository.Repository) *Service {
 	return &Service{
 		Authorization: NewAuthService(repos.Authorization),
 		Categories:    NewCategoryService(repos.Category),
+		Events:        NewEventService(repos.Event),
 	}
 }

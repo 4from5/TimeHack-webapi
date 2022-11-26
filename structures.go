@@ -18,7 +18,7 @@ type Event struct {
 	StartTimestamp     time.Time `json:"start_timestamp" db:"start_timestamp" binding:"required"`
 	EndTimestamp       time.Time `json:"end_timestamp" db:"end_timestamp" binding:"required"`
 	IsFullDay          bool      `json:"is_full_day" db:"is_full_day"`
-	Location           string    `json:"location" db:"location"`
+	EventLocation      string    `json:"event_location" db:"event_location"`
 	RepeatPeriod       int       `json:"repeat_period" db:"repeat_period"`
 	EndPeriodTimestamp time.Time `json:"end_period_timestamp" db:"end_period_timestamp"`
 }
