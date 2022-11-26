@@ -9,7 +9,7 @@ import (
 )
 
 type getAllTasksData struct {
-	Data []webapi.Task `json:"data"`
+	Data []webapi.Task `json:"tasks"`
 }
 
 func (h *Handler) getTasks(c *gin.Context) {

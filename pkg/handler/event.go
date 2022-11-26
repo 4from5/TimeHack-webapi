@@ -9,11 +9,7 @@ import (
 )
 
 type getAllEventsData struct {
-	Data []webapi.Event `json:"data"`
-}
-
-type Group struct {
-	GroupName string `json:"group_name"`
+	Data []webapi.Event `json:"events"`
 }
 
 func (h *Handler) getEvents(c *gin.Context) {
@@ -84,7 +80,7 @@ func (h *Handler) getSchedule(c *gin.Context) {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-	var group Group
+	var group webapi.Group
 	if err := c.BindJSON(&group); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
@@ -98,6 +94,6 @@ func (h *Handler) getSchedule(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"event_id": id,
+		"events": id,
 	})
 }

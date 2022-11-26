@@ -137,13 +137,14 @@ func Scraper(groupname string) []webapi.Event {
 				} else if pr.IANAToken == "RRULE" {
 					ss := strings.Split(pr.Value, ";")
 					interval := strings.Split(ss[1], "=")
-					event.RepeatPeriod, _ = strconv.Atoi(interval[1])
-					event.RepeatPeriod *= 7
+					event.RepeatPeriodDays, _ = strconv.Atoi(interval[1])
+					event.RepeatPeriodDays *= 7
 
 					endDay := strings.Split(ss[2], "=")
 					layout := "20060102"
 					event.EndPeriodTimestamp, _ = time.Parse(layout, endDay[1])
 					event.EndPeriodTimestamp = event.EndPeriodTimestamp.In(loc)
+					event.CategoryId = 2
 					Schedule = append(Schedule, event)
 
 				}

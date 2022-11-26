@@ -9,7 +9,7 @@ import (
 )
 
 type getAllCategoriesData struct {
-	Data []webapi.Category `json:"data"`
+	Data []webapi.Category `json:"categories"`
 }
 
 func (h *Handler) getCategories(c *gin.Context) {

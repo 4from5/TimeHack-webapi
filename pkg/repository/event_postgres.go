@@ -17,11 +17,11 @@ func NewEventPostgres(db *sqlx.DB) *EventPostgres {
 func (r *EventPostgres) Create(userId int, event webApi.Event) (int, error) {
 	var returnedId int
 	fmt.Println("repository.EventPostgres.Create: user id, event", userId, " ", event)
-	createCategoryQuery := fmt.Sprintf("INSERT INTO %s (user_id, category_id, title, description, start_timestamp,end_timestamp,is_full_day,event_location,repeat_period,end_period_timestamp) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING category_id", eventsTable)
+	createCategoryQuery := fmt.Sprintf("INSERT INTO %s (user_id, category_id, title, description, start_timestamp,end_timestamp,is_full_day,event_location,repeat_period_days,end_period_timestamp) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) RETURNING category_id", eventsTable)
 
 	row := r.db.QueryRow(createCategoryQuery, userId, event.CategoryId, event.Title,
 		event.Description, event.StartTimestamp, event.EndTimestamp, event.IsFullDay,
-		event.EventLocation, event.RepeatPeriod, event.EndPeriodTimestamp)
+		event.EventLocation, event.RepeatPeriodDays, event.EndPeriodTimestamp)
 	if err := row.Scan(&returnedId); err != nil {
 		return 0, err
 	}

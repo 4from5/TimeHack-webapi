@@ -9,7 +9,7 @@ import (
 )
 
 type getAllNotionsData struct {
-	Data []webapi.Notion `json:"data"`
+	Data []webapi.Notion `json:"notions"`
 }
 
 func (h *Handler) getNotions(c *gin.Context) {

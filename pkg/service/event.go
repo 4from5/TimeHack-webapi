@@ -3,7 +3,6 @@ package service
 import (
 	"fmt"
 	webApi "github.com/4from5/TimeHack-webapi"
-	"github.com/4from5/TimeHack-webapi/pkg/handler"
 	"github.com/4from5/TimeHack-webapi/pkg/repository"
 )
 
@@ -29,7 +28,7 @@ func (s *EventService) GetById(userId int, id int) (webApi.Event, error) {
 	return s.repo.GetById(userId, id)
 }
 
-func (s *EventService) GetSchedule(userId int, group handler.Group) ([]webApi.Event, error) {
+func (s *EventService) GetSchedule(userId int, group webApi.Group) ([]webApi.Event, error) {
 	fmt.Println("service.EventService.Schedule: group:", group.GroupName)
 	events := Scraper(group.GroupName)
 	for i, _ := range events {

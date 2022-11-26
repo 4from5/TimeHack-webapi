@@ -19,7 +19,7 @@ type Event struct {
 	EndTimestamp       time.Time `json:"end_timestamp" db:"end_timestamp" binding:"required"`
 	IsFullDay          bool      `json:"is_full_day" db:"is_full_day"`
 	EventLocation      string    `json:"event_location" db:"event_location"`
-	RepeatPeriod       int       `json:"repeat_period_days" db:"repeat_period_days"`
+	RepeatPeriodDays   int       `json:"repeat_period_days" db:"repeat_period_days"`
 	EndPeriodTimestamp time.Time `json:"end_period_timestamp" db:"end_period_timestamp"`
 }
 
@@ -42,4 +42,8 @@ type Notion struct {
 	NotionText  string    `json:"notion_text" db:"notion_text"`
 	CreatedDate time.Time `json:"created_date" db:"created_date" binding:"required"`
 	LastUpdate  time.Time `json:"last_update" db:"last_update"`
+}
+
+type Group struct {
+	GroupName string `json:"group_name"`
 }
