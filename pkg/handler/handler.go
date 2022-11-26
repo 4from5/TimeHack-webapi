@@ -37,6 +37,8 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		categories := api.Group("/categories")
 		{
 			categories.GET("/", h.getCategories)
+			categories.GET("/:id", h.getCategoryById)
+
 			categories.POST("/", h.createCategory)
 		}
 	}

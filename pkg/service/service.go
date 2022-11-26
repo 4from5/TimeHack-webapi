@@ -13,6 +13,8 @@ type Authorization interface {
 
 type Categories interface {
 	Create(userId int, category webApi.Category) (int, error)
+	GetAll(userId int) ([]webApi.Category, error)
+	GetById(userId, id int) (webApi.Category, error)
 }
 
 type Service struct {

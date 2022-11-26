@@ -20,6 +20,8 @@ type Repository struct {
 
 type Category interface {
 	Create(userId int, category webApi.Category) (int, error)
+	GetAll(userId int) ([]webApi.Category, error)
+	GetById(userId, id int) (webApi.Category, error)
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
