@@ -28,11 +28,18 @@ type Notions interface {
 	Create(userId int, notion webApi.Notion) (int, error)
 }
 
+type Tasks interface {
+	GetAll(userId int) ([]webApi.Task, error)
+	GetById(userId, id int) (webApi.Task, error)
+	Create(userId int, task webApi.Task) (int, error)
+}
+
 type Service struct {
 	Authorization
 	Categories
 	Events
 	Notions
+	Tasks
 }
 
 func NewService(repos *repository.Repository) *Service {
