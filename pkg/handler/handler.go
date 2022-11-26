@@ -41,11 +41,21 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 			categories.POST("/", h.createCategory)
 		}
+
+
+		events := api.Group("/events")
+		{
+			events.GET("/", h.getEvents)
+			events.GET("/:id", h.getEventById)
+
+			events.POST("/:id", h.createEvent)
+
 		notions := router.Group("/notions")
 		{
 			notions.GET("/", h.getNotions)
 			notions.GET("/:id", h.getNotionById)
 			notions.POST("/", h.createNotion)
+
 		}
 	}
 	return router

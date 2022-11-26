@@ -2,7 +2,7 @@ CREATE TABLE users
 (
     user_id       serial PRIMARY KEY UNIQUE,
     username      text UNIQUE NOT NULL,
-    email         text ,
+    email         text,
     password_hash text        NOT NULL
 );
 
@@ -35,9 +35,9 @@ CREATE TABLE events
     description          text,
     start_timestamp      timestamp                               NOT NULL,
     end_timestamp        timestamp                               NOT NULL,
-    is_full_day          bool     DEFAULT false,
-    location             text,
-    repeat_period        interval default null,
+    is_full_day          bool DEFAULT false,
+    event_location       text,
+    repeat_period_days   int  default null,
     end_period_timestamp timestamp
 
 );
@@ -102,13 +102,15 @@ VALUES (1, 1, 'Личный дневник',
        (1, 3, 'Список чилла нереального', 'А чилла то и нет потому что бомонка душит',
         '1 Nov 22 11:54 MSK', '11 Nov 22 23:30 MSK'),
        (1, 3, 'С пацанами на карики', 'точно шашлычок нужен и лимонадик(пиво не пью)',
-        '12 Jul 22 17:20 MSK', '12 Jul 22 17:20 MSK')
---        (1, 4,),
---        (1, 4,),
---        (1, 5,),
---        (1, 5,),
---        (1, 6,),
---        (1, 6,)
+        '12 Jul 22 17:20 MSK', '12 Jul 22 17:20 MSK');
 
 --                  Events
+INSERT INTO events (user_id, category_id, title, description, start_timestamp, end_timestamp, is_full_day,
+                    event_location, repeat_period_days, end_period_timestamp)
+VALUES (1, 1, 'Спортзал', 'В качалочку погнал братик', '26 Nov 22 20:00 MSK',
+        '26 Nov 22 22:00 MSK', false, 'на семёновской крч', 7, '31 Dec 22 00:00 MSK'),
+       (1, 2, 'Сделать аасоиу', 'там курсач', '26 Nov 22 20:00 MSK',
+        '26 Nov 22 20:00 MSK', true, '', 0, null),
+       (1, 3, 'Жёсткий сон', '', '27 Nov 22 00:00 MSK',
+        '27 Nov 22 06:00 MSK', true, 'в кроватке', 1, '31 Dec 22 00:00 MSK');
 
