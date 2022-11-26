@@ -25,7 +25,7 @@ func (r *NotionPostgres) GetAll(userId int) ([]webApi.Notion, error) {
 
 func (r *NotionPostgres) GetById(userId int, id int) (webApi.Notion, error) {
 	var notion webApi.Notion
-	fmt.Println("repository.CategoryPostgres.GetAll: get", userId)
+	fmt.Println("repository.NotionPostgres.GetAll: get", userId)
 
 	getNotionById := fmt.Sprintf("SELECT * FROM %s WHERE notion_id = $1 AND user_id = $2", notionsTable)
 	err := r.db.Get(&notion, getNotionById, id, userId)

@@ -2,8 +2,8 @@ package handler
 
 import (
 	"github.com/4from5/TimeHack-webapi/pkg/service"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 type Handler struct {
@@ -14,18 +14,37 @@ func NewHandler(services *service.Service) *Handler {
 	return &Handler{services: services}
 }
 
-func LiberalCORS(c *gin.Context) {
-	c.Header("Access-Control-Allow-Origin", "*")
-	if c.Request.Method == "OPTIONS" {
-		if len(c.Request.Header["Access-Control-Request-Headers"]) > 0 {
-			c.Header("Access-Control-Allow-Headers", c.Request.Header["Access-Control-Request-Headers"][0])
-		}
-		c.AbortWithStatus(http.StatusOK)
-	}
-}
+//func LiberalCORS(c *gin.Context) {
+//	c.Header("Access-Control-Allow-Origin", "*")
+//	if c.Request.Method == "OPTIONS" {
+//		if len(c.Request.Header["Access-Control-Request-Headers"]) > 0 {
+//			c.Header("Access-Control-Allow-Headers", c.Request.Header["Access-Control-Request-Headers"][0])
+//		}
+//		c.AbortWithStatus(http.StatusOK)
+//	}
+//}
+
+//func CORSMiddleware() gin.HandlerFunc {
+//	return func(c *gin.Context) {
+//		c.Header("Access-Control-Allow-Origin", "*")
+//		c.Header("Access-Control-Allow-Credentials", "true")
+//		c.Header("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+//		c.Header("Access-Control-Allow-Methods", "POST,HEAD,PATCH, OPTIONS, GET, PUT")
+//
+//		if c.Request.Method == "OPTIONS" {
+//			c.AbortWithStatus(204)
+//			return
+//		}
+//
+//		c.Next()
+//	}
+//}
+
 func (h *Handler) InitRoutes() *gin.Engine {
 	router := gin.New()
-	router.Use(LiberalCORS)
+
+	router.Use(cors.Default())
+	//router.Use(LiberalCORS)
 
 	auth := router.Group("/auth")
 	{
@@ -55,7 +74,15 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			notions.GET("/", h.getNotions)
 			notions.GET("/:id", h.getNotionById)
+
 			notions.POST("/", h.createNotion)
+		}
+		tasks := api.Group("/tasks")
+		{
+			tasks.GET("/", h.getTasks)
+			tasks.GET("/:id", h.getTaskById)
+
+			tasks.POST("/", h.createTask)
 		}
 	}
 	return router
