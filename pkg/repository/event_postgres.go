@@ -39,9 +39,9 @@ func (r *EventPostgres) GetAll(userId int) ([]webApi.Event, error) {
 }
 func (r *EventPostgres) GetById(userId int, id int) (webApi.Event, error) {
 	var event webApi.Event
-	fmt.Println("repository.CategoryPostgres.GetById: userId, id:", userId, " ", id)
+	fmt.Println("repository.EventPostgres.GetById: userId, id:", userId, " ", id)
 
-	getEventById := fmt.Sprintf("SELECT * FROM %s WHERE event_id = $1 AND user_id = $2", categoriesTable)
+	getEventById := fmt.Sprintf("SELECT * FROM %s WHERE event_id = $1 AND user_id = $2", eventsTable)
 	err := r.db.Get(&event, getEventById, id, userId)
 
 	return event, err

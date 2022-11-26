@@ -31,7 +31,7 @@ type Notions interface {
 type Service struct {
 	Authorization
 	Categories
-	Event
+	Events
 	Notions
 }
 
