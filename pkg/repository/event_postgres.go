@@ -46,3 +46,14 @@ func (r *EventPostgres) GetById(userId int, id int) (webApi.Event, error) {
 
 	return event, err
 }
+
+func (r *EventPostgres) Delete(userId int, id int) error {
+
+	fmt.Println("repository.EventPostgres.Delete: userId, id:", userId, " ", id)
+
+	query := fmt.Sprintf("DELETE FROM %s WHERE event_id = $1 AND user_id = $2", eventsTable)
+
+	_, err := r.db.Exec(query, id, userId)
+
+	return err
+}

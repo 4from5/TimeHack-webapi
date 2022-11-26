@@ -72,6 +72,53 @@ func (h *Handler) createCategory(c *gin.Context) {
 	c.JSON(http.StatusOK, map[string]interface{}{
 		"category_id": id,
 	})
-	//	input.UserId, _ = strconv.Atoi(cast.ToString(id)) //это шок просто ужас
+}
 
+func (h *Handler) deleteCategory(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	err = h.services.Categories.Delete(userId, id)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
+}
+
+func (h *Handler) updateCategory(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	var input webapi.UpdateCategoryInput
+	if err = c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err = h.services.Update(userId, id, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
 }

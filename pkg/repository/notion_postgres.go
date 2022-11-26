@@ -43,3 +43,14 @@ func (r *NotionPostgres) Create(userId int, notion webApi.Notion) (int, error) {
 	return returnedId, nil
 
 }
+
+func (r *NotionPostgres) Delete(userId int, id int) error {
+
+	fmt.Println("repository.NotionPostgres.Delete: userId, id:", userId, " ", id)
+
+	query := fmt.Sprintf("DELETE FROM %s WHERE event_id = $1 AND user_id = $2", eventsTable)
+
+	_, err := r.db.Exec(query, id, userId)
+
+	return err
+}

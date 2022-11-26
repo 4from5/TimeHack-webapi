@@ -28,3 +28,7 @@ func (s *NotionService) Create(userId int, notion webApi.Notion) (int, error) {
 	fmt.Println("service.NotionService.Create: get", userId, " ", notion)
 	return s.repo.Create(userId, notion)
 }
+func (s *NotionService) Delete(userId, id int) error {
+	fmt.Println("service.NotionService.Delete: userId, id:", userId, " ", id)
+	return s.repo.Delete(userId, id)
+}

@@ -1,6 +1,9 @@
 package webApi
 
-import "time"
+import (
+	"errors"
+	"time"
+)
 
 type Category struct {
 	Id     int    `json:"id" db:"category_id,omitempty"`
@@ -24,14 +27,15 @@ type Event struct {
 }
 
 type Task struct {
-	Id          int       `json:"id" db:"task_id,omitempty"`
-	UserId      int       `json:"user_id" db:"user_id" binding:"required"`
-	CategoryId  int       `json:"category_id" db:"category_id" binding:"required"`
-	Title       string    `json:"title" db:"title" binding:"required"`
-	Description string    `json:"description" db:"description"`
-	Deadline    time.Time `json:"deadline" db:"deadline"`
-	DateTime    time.Time `json:"dateTime" db:"date_time" binding:"required"`
-	Priority    int       `json:"priority" db:"priority"`
+	Id           int       `json:"id" db:"task_id,omitempty"`
+	UserId       int       `json:"user_id" db:"user_id" binding:"required"`
+	CategoryId   int       `json:"category_id" db:"category_id" binding:"required"`
+	Title        string    `json:"title" db:"title" binding:"required"`
+	Description  string    `json:"description" db:"description"`
+	Deadline     time.Time `json:"deadline" db:"deadline"`
+	DateTime     time.Time `json:"date_time" db:"date_time" binding:"required"`
+	CreationDate time.Time `json:"creation_date" db:"creation_date" binding:"required"`
+	Priority     int       `json:"priority" db:"priority"`
 }
 
 type Notion struct {
@@ -47,4 +51,16 @@ type Notion struct {
 type Group struct {
 	GroupName  string `json:"group_name"`
 	CategoryId int    `json:"category_id"`
+}
+
+type UpdateCategoryInput struct {
+	Title  *string `json:"title"`
+	Colour *string `json:"colour"`
+}
+
+func (i UpdateCategoryInput) Validate() error {
+	if i.Title == nil && i.Colour == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
 }
