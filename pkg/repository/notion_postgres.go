@@ -16,7 +16,7 @@ func NewNotionPostgres(db *sqlx.DB) *NotionPostgres {
 
 func (r *NotionPostgres) GetAll(userId int) ([]webApi.Notion, error) {
 	var notions []webApi.Notion
-	fmt.Println("repository.CategoryPostgres.GetAll: get", userId)
+	fmt.Println("repository.NotionPostgres.GetAll: get", userId)
 
 	getAllCategories := fmt.Sprintf("SELECT * FROM %s WHERE user_id = $1", notionsTable)
 	err := r.db.Select(&notions, getAllCategories, userId)

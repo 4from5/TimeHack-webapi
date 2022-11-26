@@ -19,7 +19,7 @@ type Event struct {
 	EndTimestamp       time.Time `json:"end_timestamp" db:"end_timestamp" binding:"required"`
 	IsFullDay          bool      `json:"is_full_day" db:"is_full_day"`
 	EventLocation      string    `json:"event_location" db:"event_location"`
-	RepeatPeriod       int       `json:"repeat_period" db:"repeat_period"`
+	RepeatPeriod       int       `json:"repeat_period_days" db:"repeat_period_days"`
 	EndPeriodTimestamp time.Time `json:"end_period_timestamp" db:"end_period_timestamp"`
 }
 
@@ -35,7 +35,7 @@ type Task struct {
 }
 
 type Notion struct {
-	Id          int       `json:"id" db:"task_id,omitempty"`
+	Id          int       `json:"id" db:"notion_id,omitempty"`
 	UserId      int       `json:"user_id" db:"user_id" binding:"required"`
 	CategoryId  int       `json:"category_id" db:"category_id" binding:"required"`
 	Title       string    `json:"title" db:"title" binding:"required"`
