@@ -46,8 +46,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		{
 			events.GET("/", h.getEvents)
 			events.GET("/:id", h.getEventById)
-
 			events.POST("/:id", h.createEvent)
+			events.POST("/schedule", h.getSchedule)
+
 		}
 
 		notions := api.Group("/notions")

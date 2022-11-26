@@ -12,6 +12,10 @@ type getAllEventsData struct {
 	Data []webapi.Event `json:"data"`
 }
 
+type Group struct {
+	GroupName string `json:"group_name"`
+}
+
 func (h *Handler) getEvents(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
@@ -64,6 +68,30 @@ func (h *Handler) createEvent(c *gin.Context) {
 	}
 	fmt.Println("handler.createEvent:", input)
 	id, err := h.services.Events.Create(userId, input)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"event_id": id,
+	})
+}
+
+func (h *Handler) getSchedule(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+	var group Group
+	if err := c.BindJSON(&group); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+	fmt.Println("handler.getSchedule:", group)
+	//
+	id, err := h.services.Events.GetSchedule(userId, group)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return

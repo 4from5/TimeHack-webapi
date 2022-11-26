@@ -2,6 +2,7 @@ package service
 
 import (
 	webApi "github.com/4from5/TimeHack-webapi"
+	"github.com/4from5/TimeHack-webapi/pkg/handler"
 	"github.com/4from5/TimeHack-webapi/pkg/repository"
 )
 
@@ -21,6 +22,7 @@ type Events interface {
 	Create(userId int, event webApi.Event) (int, error)
 	GetAll(userId int) ([]webApi.Event, error)
 	GetById(userId, id int) (webApi.Event, error)
+	GetSchedule(userId int, group handler.Group) ([]webApi.Event, error)
 }
 type Notions interface {
 	GetAll(userId int) ([]webApi.Notion, error)
