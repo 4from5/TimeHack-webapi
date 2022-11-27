@@ -11,6 +11,10 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
+type Week interface {
+	GetDays(usedId int, input webApi.WeekRequest) ([]webApi.Day, error)
+}
+
 type User interface {
 	Get(userId int) (webApi.UsernameInfo, error)
 }
@@ -55,6 +59,7 @@ type Service struct {
 	Notions
 	Tasks
 	User
+	Week
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -65,5 +70,6 @@ func NewService(repos *repository.Repository) *Service {
 		Notions:       NewNotionService(repos.Notion),
 		Tasks:         NewTaskService(repos.Task),
 		User:          NewUserService(repos.User),
+		Week:          NewWeekService(repos.Week),
 	}
 }

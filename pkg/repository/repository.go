@@ -12,11 +12,16 @@ type Repository struct {
 	Event
 	Notion
 	User
+	Week
 }
 
 type Authorization interface {
 	CreateUser(user webApi.User) (int, error)
 	GetUser(username, password string) (webApi.User, error)
+}
+
+type Week interface {
+	GetDays(userId int, input webApi.WeekRequest) ([]webApi.Day, error)
 }
 
 type User interface {
@@ -63,5 +68,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Notion:        NewNotionPostgres(db),
 		Task:          NewTaskPostgres(db),
 		User:          NewUserPostgres(db),
+		Week:          NewWeekPostgres(db),
 	}
 }

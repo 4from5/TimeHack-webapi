@@ -5,6 +5,21 @@ import (
 	"time"
 )
 
+type Week struct {
+	Days []Day `json:"week"`
+}
+
+type WeekRequest struct {
+	FirstDay time.Time `json:"first_day"`
+	LastDay  time.Time `json:"last_day"`
+}
+
+type Day struct {
+	TasksCount     int `json:"tasks_count"`
+	EventsCount    int `json:"events_count"`
+	DeadlinesCount int `json:"deadlines_count"`
+}
+
 type Category struct {
 	Id     int    `json:"id" db:"category_id,omitempty"`
 	UserId int    `json:"user_id" db:"user_id"`
