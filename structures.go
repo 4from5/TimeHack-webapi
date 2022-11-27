@@ -59,12 +59,31 @@ type UpdateCategoryInput struct {
 	Colour *string `json:"colour"`
 }
 
+type UpdateEventInput struct {
+	CategoryId         *int       `json:"category_id"`
+	Title              *string    `json:"title"`
+	Description        *string    `json:"description"`
+	StartTimestamp     *time.Time `json:"start_timestamp"`
+	EndTimestamp       *time.Time `json:"end_timestamp"`
+	IsFullDay          *bool      `json:"is_full_day"`
+	EventLocation      *string    `json:"event_location"`
+	RepeatPeriodDays   *int       `json:"repeat_period_days"`
+	EndPeriodTimestamp *time.Time `json:"end_period_timestamp"`
+}
+
 type UsernameInfo struct {
 	Username string `json:"username"`
 }
 
 func (i UpdateCategoryInput) Validate() error {
 	if i.Title == nil && i.Colour == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+func (i UpdateEventInput) Validate() error {
+	if i.Title == nil && i.CategoryId == nil && i.Description == nil && i.EndPeriodTimestamp == nil {
 		return errors.New("update structure has no values")
 	}
 	return nil

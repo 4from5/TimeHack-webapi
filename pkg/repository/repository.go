@@ -36,6 +36,7 @@ type Event interface {
 	GetAll(userId int) ([]webApi.Event, error)
 	GetById(userId, id int) (webApi.Event, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateEventInput) error
 }
 
 type Notion interface {
