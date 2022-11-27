@@ -36,6 +36,7 @@ type Task struct {
 	DateTime     time.Time `json:"date_time" db:"date_time" binding:"required"`
 	CreationDate time.Time `json:"creation_date" db:"creation_date" binding:"required"`
 	Priority     int       `json:"priority" db:"priority"`
+	IsDone       bool      `json:"is_done" db:"is_done"`
 }
 
 type Notion struct {
