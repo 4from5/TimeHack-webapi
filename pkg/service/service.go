@@ -11,6 +11,10 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
+type User interface {
+	Get(userId int) (webApi.UsernameInfo, error)
+}
+
 type Categories interface {
 	Create(userId int, category webApi.Category) (int, error)
 	GetAll(userId int) ([]webApi.Category, error)
@@ -46,6 +50,7 @@ type Service struct {
 	Events
 	Notions
 	Tasks
+	User
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -55,5 +60,6 @@ func NewService(repos *repository.Repository) *Service {
 		Events:        NewEventService(repos.Event),
 		Notions:       NewNotionService(repos.Notion),
 		Tasks:         NewTaskService(repos.Task),
+		User:          NewUserService(repos.User),
 	}
 }

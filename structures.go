@@ -59,6 +59,10 @@ type UpdateCategoryInput struct {
 	Colour *string `json:"colour"`
 }
 
+type UsernameInfo struct {
+	Username string `json:"username"`
+}
+
 func (i UpdateCategoryInput) Validate() error {
 	if i.Title == nil && i.Colour == nil {
 		return errors.New("update structure has no values")
