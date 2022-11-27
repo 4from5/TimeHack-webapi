@@ -76,6 +76,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			tasks.DELETE("/:id", h.deleteNotion)
 
 		}
+		api.GET("/download", func(c *gin.Context) {
+			c.File("1.txt")
+		})
 	}
 	return router
 }
