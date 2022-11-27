@@ -44,6 +44,7 @@ type Notion interface {
 	GetById(userId int, id int) (webApi.Notion, error)
 	Create(userId int, notion webApi.Notion) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateNotionInput) error
 }
 
 type Task interface {
@@ -51,6 +52,7 @@ type Task interface {
 	GetById(userId int, id int) (webApi.Task, error)
 	Create(userId int, notion webApi.Task) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateTaskInput) error
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
