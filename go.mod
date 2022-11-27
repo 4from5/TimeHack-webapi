@@ -5,10 +5,14 @@ go 1.17
 require (
 	github.com/arran4/golang-ical v0.0.0-20221122102835-109346913e54
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/gin-contrib/cors v1.4.0
 	github.com/gin-gonic/gin v1.8.1
+	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gocolly/colly v1.2.0
+	github.com/gorilla/mux v1.8.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/joho/godotenv v1.4.0
+	github.com/jordic/goics v0.0.0-20210404174824-5a0337b716a0
 	github.com/lib/pq v1.2.0
 	github.com/sirupsen/logrus v1.9.0
 	github.com/spf13/viper v1.14.0
@@ -21,7 +25,6 @@ require (
 	github.com/antchfx/xmlquery v1.3.13 // indirect
 	github.com/antchfx/xpath v1.2.1 // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
-	github.com/gin-contrib/cors v1.4.0 // indirect
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.0 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
