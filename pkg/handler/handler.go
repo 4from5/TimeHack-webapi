@@ -77,14 +77,14 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 			tasks.POST("/", h.createTask)
 
-			tasks.DELETE("/:id", h.deleteNotion)
+			tasks.DELETE("/:id", h.deleteTask)
 			tasks.PUT("/:id", h.updateTask)
 
 		}
 
 		week := api.Group("/week")
 		{
-			week.POST("/week", h.getWeek)
+			week.POST("/", h.getWeek)
 		}
 
 	}

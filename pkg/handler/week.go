@@ -14,7 +14,7 @@ func (h *Handler) getWeek(c *gin.Context) {
 	}
 
 	var input webApi.WeekRequest
-	if err := c.BindJSON(&input); err != nil {
+	if err = c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}

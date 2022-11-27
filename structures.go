@@ -29,7 +29,7 @@ type Category struct {
 
 type Event struct {
 	Id                 int       `json:"id" db:"event_id,omitempty"`
-	UserId             int       `json:"user_id" db:"user_id" binding:"required"`
+	UserId             int       `json:"user_id" db:"user_id"`
 	CategoryId         int       `json:"category_id" db:"category_id" binding:"required"`
 	Title              string    `json:"title" db:"title" binding:"required"`
 	Description        string    `json:"description" db:"description"`
@@ -43,7 +43,7 @@ type Event struct {
 
 type Task struct {
 	Id           int       `json:"id" db:"task_id,omitempty"`
-	UserId       int       `json:"user_id" db:"user_id" binding:"required"`
+	UserId       int       `json:"user_id" db:"user_id"`
 	CategoryId   int       `json:"category_id" db:"category_id" binding:"required"`
 	Title        string    `json:"title" db:"title" binding:"required"`
 	Description  string    `json:"description" db:"description"`
@@ -56,7 +56,7 @@ type Task struct {
 
 type Notion struct {
 	Id          int       `json:"id" db:"notion_id,omitempty"`
-	UserId      int       `json:"user_id" db:"user_id" binding:"required"`
+	UserId      int       `json:"user_id" db:"user_id"`
 	CategoryId  int       `json:"category_id" db:"category_id" binding:"required"`
 	Title       string    `json:"title" db:"title" binding:"required"`
 	NotionText  string    `json:"notion_text" db:"notion_text"`
