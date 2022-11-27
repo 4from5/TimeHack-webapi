@@ -40,6 +40,13 @@ func (s *EventService) GetSchedule(userId int, group webApi.Group) ([]webApi.Eve
 	return s.repo.GetAll(userId)
 }
 
+func (s *EventService) Download(userId int) {
+	fmt.Println("service.EventService.Download: id:", userId)
+	events, _ := s.repo.GetAll(userId)
+	fmt.Println(events)
+	Serialize(events)
+}
+
 func (s *EventService) Delete(userId, id int) error {
 	fmt.Println("service.EventService.Delete: userId, id:", userId, " ", id)
 	return s.repo.Delete(userId, id)

@@ -26,20 +26,27 @@ func (e MyEvents) EmitICal() goics.Componenter {
 	for _, event := range e {
 		s := goics.NewComponent()
 		s.SetType("VEVENT")
-
-		s.AddProperty("DTSTART", event.StartTimestamp.Format("20060204T150405Z"))
-
+		if event.IsFullDay {
+			s.AddProperty("DTSTART", event.StartTimestamp.Format("20060102"))
+		} else {
+			s.AddProperty("DTSTART", event.StartTimestamp.Format("20060102T150405"))
+		}
 		s.AddProperty("Location", event.EventLocation)
 		var str string
-		if event.RepeatPeriodDays%7 == 0 {
-			str = `FREQ=WEEKLY;` + "INTERVAL=" + strconv.Itoa(int(event.RepeatPeriodDays/7)) + ";UNTIL=" + event.EndPeriodTimestamp.Format("20060204")
-			fmt.Println(str)
-		} else {
-			str = "FREQ=DAILY;" + "INTERVAL=" + strconv.Itoa(event.RepeatPeriodDays) + ";UNTIL=" + event.EndPeriodTimestamp.Format("20060204")
+		if event.RepeatPeriodDays > 0 {
+			if event.RepeatPeriodDays%7 == 0 {
+				str = `FREQ=WEEKLY;` + "INTERVAL=" + strconv.Itoa(int(event.RepeatPeriodDays/7)) + ";UNTIL=" + event.EndPeriodTimestamp.Format("20060204")
+				fmt.Println(str)
+			} else {
+				str = "FREQ=DAILY;" + "INTERVAL=" + strconv.Itoa(event.RepeatPeriodDays) + ";UNTIL=" + event.EndPeriodTimestamp.Format("20060204")
+			}
+			s.AddProperty("RRULE", str)
 		}
-		s.AddProperty("RRULE", str)
-		s.AddProperty("DTEND", event.EndTimestamp.Format("20060204T150405Z"))
-
+		if event.IsFullDay {
+			s.AddProperty("DTEND", event.EndTimestamp.Format("20060102"))
+		} else {
+			s.AddProperty("DTEND", event.EndTimestamp.Format("20060102T150405"))
+		}
 		s.AddProperty("SUMMARY", event.Title)
 		c.AddComponent(s)
 		fmt.Println(s)
@@ -52,7 +59,7 @@ func Serialize(events MyEvents) {
 	var b strings.Builder
 	goics.NewICalEncode(&b).Encode(events)
 
-	file, err := os.OpenFile("schedule1.ics", os.O_RDWR, 0755)
+	file, err := os.OpenFile("pkg/service/schedule1.ics", os.O_RDWR, 0755)
 	defer file.Close()
 	if err != nil {
 		fmt.Println(err)

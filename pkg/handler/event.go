@@ -118,3 +118,14 @@ func (h *Handler) deleteEvent(c *gin.Context) {
 
 	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
 }
+
+func (h *Handler) Download(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	h.services.Events.Download(userId)
+	c.FileAttachment("pkg/service/schedule1.ics", "ExportedCalendar.ics")
+}

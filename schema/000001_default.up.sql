@@ -115,7 +115,7 @@ INSERT INTO events (user_id, category_id, title, description, start_timestamp, e
 VALUES (1, 1, 'Спортзал', 'В качалочку погнал братик', '26 Nov 22 20:00 MSK',
         '26 Nov 22 22:00 MSK', false, 'на семёновской крч', 7, '31 Dec 22 00:00 MSK'),
        (1, 2, 'Сделать аасоиу', 'там курсач', '26 Nov 22 20:00 MSK',
-        '26 Nov 22 20:00 MSK', true, '.', 0, '1 Jan 70 00:01 MSK'),
+        '27 Nov 22 20:00 MSK', true, '', 0, '1 Jan 70 00:01 MSK'),
        (1, 3, 'Жёсткий сон', '.', '27 Nov 22 00:00 MSK',
-        '27 Nov 22 06:00 MSK', true, 'в кроватке', 1, '30 Dec 22 00:00 MSK');
+        '27 Nov 22 06:00 MSK', false, 'в кроватке', 1, '30 Dec 22 00:00 MSK');
 
