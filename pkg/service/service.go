@@ -30,6 +30,7 @@ type Events interface {
 	GetSchedule(userId int, group webApi.Group) ([]webApi.Event, error)
 	Delete(userId, id int) error
 	Download(userId int)
+	Update(userId, id int, input webApi.UpdateEventInput) error
 }
 type Notions interface {
 	GetAll(userId int) ([]webApi.Notion, error)

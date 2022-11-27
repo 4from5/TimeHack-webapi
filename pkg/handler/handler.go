@@ -55,6 +55,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			events.DELETE("/:id", h.deleteEvent)
 
 			events.GET("/download", h.Download)
+			events.PUT("/:id", h.updateEvent)
 
 		}
 
