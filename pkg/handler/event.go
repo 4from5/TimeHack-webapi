@@ -8,27 +8,27 @@ import (
 	"strconv"
 )
 
-type getAllCategoriesData struct {
-	Data []webapi.Category `json:"categories"`
+type getAllEventsData struct {
+	Data []webapi.Event `json:"events"`
 }
 
-func (h *Handler) getCategories(c *gin.Context) {
+func (h *Handler) getEvents(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	categories, err := h.services.Categories.GetAll(userId)
+	events, err := h.services.Events.GetAll(userId)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, getAllCategoriesData{categories})
+	c.JSON(http.StatusOK, getAllEventsData{events})
 }
 
-func (h *Handler) getCategoryById(c *gin.Context) {
+func (h *Handler) getEventById(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
@@ -41,81 +41,77 @@ func (h *Handler) getCategoryById(c *gin.Context) {
 		return
 	}
 
-	category, err := h.services.Categories.GetById(userId, id)
+	event, err := h.services.Events.GetById(userId, id)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	c.JSON(http.StatusOK, category)
+	c.JSON(http.StatusOK, event)
 }
 
-func (h *Handler) createCategory(c *gin.Context) {
+func (h *Handler) createEvent(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
-	var input webapi.Category
+	var input webapi.Event
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
-	fmt.Println("handler.createCategory:", input)
-	id, err := h.services.Categories.Create(userId, input)
+	fmt.Println("handler.createEvent:", input)
+	id, err := h.services.Events.Create(userId, input)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
 
 	c.JSON(http.StatusOK, map[string]interface{}{
-		"category_id": id,
+		"event_id": id,
 	})
 }
 
-func (h *Handler) deleteCategory(c *gin.Context) {
+func (h *Handler) getSchedule(c *gin.Context) {
 	userId, err := getUserId(c)
 	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}
-
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	err = h.services.Categories.Delete(userId, id)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
-}
-
-func (h *Handler) updateCategory(c *gin.Context) {
-	userId, err := getUserId(c)
-	if err != nil {
-		newErrorResponse(c, http.StatusInternalServerError, err.Error())
-		return
-	}
-
-	id, err := strconv.Atoi(c.Param("id"))
-	if err != nil {
-		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
-		return
-	}
-
-	var input webapi.UpdateCategoryInput
-	if err = c.BindJSON(&input); err != nil {
+	var group webapi.Group
+	if err := c.BindJSON(&group); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, err.Error())
 		return
 	}
+	fmt.Println("handler.getSchedule:", group)
+	//
+	id, err := h.services.Events.GetSchedule(userId, group)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
 
-	if err = h.services.Update(userId, id, input); err != nil {
+	c.JSON(http.StatusOK, map[string]interface{}{
+		"events": id,
+	})
+}
+func (h *Handler) deleteEvent(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	err = h.services.Events.Delete(userId, id)
+	if err != nil {
 		newErrorResponse(c, http.StatusInternalServerError, err.Error())
 		return
 	}

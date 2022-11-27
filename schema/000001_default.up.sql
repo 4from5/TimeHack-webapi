@@ -2,7 +2,6 @@ CREATE TABLE users
 (
     user_id       serial PRIMARY KEY UNIQUE,
     username      text UNIQUE NOT NULL,
-    email         text UNIQUE,
     password_hash text        NOT NULL
 );
 
@@ -16,14 +15,16 @@ CREATE TABLE categories
 
 CREATE TABLE tasks
 (
-    task_id     serial PRIMARY KEY UNIQUE,
-    user_id     int REFERENCES users (user_id)          NOT NULL,
-    category_id int REFERENCES categories (category_id) NOT NULL,
-    title       text                                    NOT NULL,
-    description text,
-    deadline    timestamp,
-    date_time   timestamp                               NOT NULL,
-    priority    int DEFAULT 1
+    task_id       serial PRIMARY KEY UNIQUE,
+    user_id       int REFERENCES users (user_id)          NOT NULL,
+    category_id   int REFERENCES categories (category_id) NOT NULL,
+    title         text                                    NOT NULL,
+    description   text,
+    deadline      timestamp,
+    date_time     timestamp                               NOT NULL,
+    creation_date timestamp                               NOT NULL,
+    priority      int  DEFAULT 1,
+    is_done       bool DEFAULT false
 );
 
 CREATE TABLE events
@@ -35,9 +36,9 @@ CREATE TABLE events
     description          text,
     start_timestamp      timestamp                               NOT NULL,
     end_timestamp        timestamp                               NOT NULL,
-    is_full_day          bool     DEFAULT false,
-    location             text,
-    repeat_period        interval default null,
+    is_full_day          bool DEFAULT false,
+    event_location       text,
+    repeat_period_days   int  default null,
     end_period_timestamp timestamp
 
 );
@@ -57,14 +58,14 @@ CREATE TABLE notions
 
 --                  USERS
 INSERT
-INTO users(username, email, password_hash)
-VALUES ('Cockpit', 'cockpit@mail.ru',
+INTO users(username, password_hash)
+VALUES ('Cockpit',
         '73616c745f666f725f68617368a536a2c57d148f488a7b214a07356710a331f1256a6d39d647fee4c2da52cdc7511afe0aa59bddfc14bd3844c9cdb4ef54f049c1453a65b75c8634c5ab056837');
 
 INSERT
 INTO users(username, password_hash)
-VALUES ('Bashmak',
-        '73616c745f666f725f686173680b1db6b6a02119319d66c86f39f296c612294fb8097c63971f8ed96180185bf1c21e3347248cf3ac8ef2d870ca5c1929474da9cd46fe6f5ab7c233d69cab39c9');
+VALUES ('Bashmak1',
+        '73616c745f666f725f68617368c1708d426030b4d70f5b7fc5b21475e2da1fa1a2959f3616346209566c69f03fa02d129cded76c4836de53a1cd376f84be188cff6a735ab25eb61476eb932de6');
 
 --                  Categories
 INSERT
@@ -77,15 +78,19 @@ VALUES (1, 'Личное', 'blue'),
        (2, 'Отдых', 'violet');
 
 --                  Tasks
-INSERT INTO tasks(user_id, category_id, title, description, deadline, date_time, priority)
+INSERT INTO tasks(user_id, category_id, title, description, deadline, date_time, creation_date, priority, is_done)
 VALUES (1, 1, 'Встретиться с кентом', 'ну это с Тёмиком короче пересечься бы', '30 Nov 22',
-        '25 Nov 22', 2),
-       (1, 1, 'Жёстко заняться саморазвитием', null, null,
-        '27 Nov 22', 3),
+        '25 Nov 22', '25 Nov 22 12:02 MSK', 2, false),
+       (1, 1, 'Жёстко заняться саморазвитием', '', '1 Jan 70',
+        '27 Nov 22', '27 Nov 22 11:10 MSK', 3, false),
        (1, 2, 'Курсач по ААСОИУ', 'Шуку надо чот написать так и не понял тип того', '29 Dec 22',
-        '27 Nov 22', 1),
-       (1, 2, 'Курсач по ААСОИУ', 'Шуку надо чот написать так и не понял тип того', '29 Dec 22',
-        '27 Nov 22', 1);
+        '27 Nov 22', '12 Sep 22 12:00', 1, false),
+       (1, 2, 'ДЗ Тервер', '', '29 Nov 22',
+        '28 Nov 22', '27 Nov 22 11:37 MSK', 3, false),
+       (1, 3, 'Жёстко зачилить с девушкой', '', '1 Jan 70',
+        '30 Nov 22', '30 Nov 22', 2, false),
+       (1, 3, 'Жёстко с парнями зачилить', 'в баньку сгонять', '1 Jan 70',
+        '1 Dec 22', '30 Nov 22', 3, false);
 
 
 --                  Notions
@@ -102,13 +107,15 @@ VALUES (1, 1, 'Личный дневник',
        (1, 3, 'Список чилла нереального', 'А чилла то и нет потому что бомонка душит',
         '1 Nov 22 11:54 MSK', '11 Nov 22 23:30 MSK'),
        (1, 3, 'С пацанами на карики', 'точно шашлычок нужен и лимонадик(пиво не пью)',
-        '12 Jul 22 17:20 MSK', '12 Jul 22 17:20 MSK')
---        (1, 4,),
---        (1, 4,),
---        (1, 5,),
---        (1, 5,),
---        (1, 6,),
---        (1, 6,)
+        '12 Jul 22 17:20 MSK', '12 Jul 22 17:20 MSK');
 
 --                  Events
+INSERT INTO events (user_id, category_id, title, description, start_timestamp, end_timestamp, is_full_day,
+                    event_location, repeat_period_days, end_period_timestamp)
+VALUES (1, 1, 'Спортзал', 'В качалочку погнал братик', '26 Nov 22 20:00 MSK',
+        '26 Nov 22 22:00 MSK', false, 'на семёновской крч', 7, '31 Dec 22 00:00 MSK'),
+       (1, 2, 'Сделать аасоиу', 'там курсач', '26 Nov 22 20:00 MSK',
+        '26 Nov 22 20:00 MSK', true, '.', 0, '1 Jan 70 00:01 MSK'),
+       (1, 3, 'Жёсткий сон', '.', '27 Nov 22 00:00 MSK',
+        '27 Nov 22 06:00 MSK', true, 'в кроватке', 1, '30 Dec 22 00:00 MSK');
 

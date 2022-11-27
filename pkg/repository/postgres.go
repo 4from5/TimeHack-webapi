@@ -7,7 +7,7 @@ import (
 
 const (
 	usersTable      = "users"
-	eventsTable     = "event"
+	eventsTable     = "events"
 	notionsTable    = "notions"
 	tasksTable      = "tasks"
 	categoriesTable = "categories"
