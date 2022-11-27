@@ -11,11 +11,16 @@ type Repository struct {
 	Task
 	Event
 	Notion
+	User
 }
 
 type Authorization interface {
 	CreateUser(user webApi.User) (int, error)
 	GetUser(username, password string) (webApi.User, error)
+}
+
+type User interface {
+	Get(userId int) (webApi.UsernameInfo, error)
 }
 
 type Category interface {
@@ -54,5 +59,6 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Event:         NewEventPostgres(db),
 		Notion:        NewNotionPostgres(db),
 		Task:          NewTaskPostgres(db),
+		User:          NewUserPostgres(db),
 	}
 }
