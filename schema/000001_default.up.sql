@@ -23,7 +23,8 @@ CREATE TABLE tasks
     deadline      timestamp,
     date_time     timestamp                               NOT NULL,
     creation_date timestamp                               NOT NULL,
-    priority      int DEFAULT 1
+    priority      int  DEFAULT 1,
+    is_done       bool DEFAULT false
 );
 
 CREATE TABLE events
@@ -77,19 +78,19 @@ VALUES (1, 'Личное', 'blue'),
        (2, 'Отдых', 'violet');
 
 --                  Tasks
-INSERT INTO tasks(user_id, category_id, title, description, deadline, date_time, creation_date, priority)
+INSERT INTO tasks(user_id, category_id, title, description, deadline, date_time, creation_date, priority, is_done)
 VALUES (1, 1, 'Встретиться с кентом', 'ну это с Тёмиком короче пересечься бы', '30 Nov 22',
-        '25 Nov 22', '25 Nov 22 12:02 MSK', 2),
+        '25 Nov 22', '25 Nov 22 12:02 MSK', 2, false),
        (1, 1, 'Жёстко заняться саморазвитием', '', '1 Jan 70',
-        '27 Nov 22', '27 Nov 22 11:10 MSK', 3),
+        '27 Nov 22', '27 Nov 22 11:10 MSK', 3, false),
        (1, 2, 'Курсач по ААСОИУ', 'Шуку надо чот написать так и не понял тип того', '29 Dec 22',
-        '27 Nov 22', '12 Sep 22 12:00', 1),
+        '27 Nov 22', '12 Sep 22 12:00', 1, false),
        (1, 2, 'ДЗ Тервер', '', '29 Nov 22',
-        '28 Nov 22', '27 Nov 22 11:37 MSK', 3),
+        '28 Nov 22', '27 Nov 22 11:37 MSK', 3, false),
        (1, 3, 'Жёстко зачилить с девушкой', '', '1 Jan 70',
-        '30 Nov 22', '30 Nov 22', 2),
+        '30 Nov 22', '30 Nov 22', 2, false),
        (1, 3, 'Жёстко с парнями зачилить', 'в баньку сгонять', '1 Jan 70',
-        '1 Dec 22', '30 Nov 22', 3);
+        '1 Dec 22', '30 Nov 22', 3, false);
 
 
 --                  Notions

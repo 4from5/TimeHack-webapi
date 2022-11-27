@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	webapi "github.com/4from5/TimeHack-webapi"
 	"github.com/4from5/TimeHack-webapi/pkg/handler"
 	"github.com/4from5/TimeHack-webapi/pkg/repository"
@@ -39,9 +40,12 @@ func main() {
 	handlers := handler.NewHandler(services)
 
 	server := new(webapi.Server)
-	if err := server.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
+	fmt.Println("Server is running on:", webapi.GetOutboundIP(), ":", viper.GetString("port"))
+
+	if err = server.Run(viper.GetString("port"), handlers.InitRoutes()); err != nil {
 		logrus.Fatalf("Error while starting server, error: %s", err.Error())
 	}
+
 }
 
 func initConfig() error {

@@ -59,7 +59,9 @@ func (r *CategoryPostgres) Delete(userId, id int) error {
 	deleteTasksQuery := fmt.Sprintf("DELETE FROM %s WHERE category_id = $1 AND user_id = $2", tasksTable)
 	_, err = tx.Exec(deleteTasksQuery, id, userId)
 	if err != nil {
-		tx.Rollback()
+		if err = tx.Rollback(); err != nil {
+			return err
+		}
 		return err
 	}
 
@@ -68,7 +70,9 @@ func (r *CategoryPostgres) Delete(userId, id int) error {
 	deleteNotionsQuery := fmt.Sprintf("DELETE FROM %s WHERE category_id = $1 AND user_id = $2", notionsTable)
 	_, err = tx.Exec(deleteNotionsQuery, id, userId)
 	if err != nil {
-		tx.Rollback()
+		if err = tx.Rollback(); err != nil {
+			return err
+		}
 		return err
 	}
 
@@ -77,7 +81,9 @@ func (r *CategoryPostgres) Delete(userId, id int) error {
 	deleteEventsQuery := fmt.Sprintf("DELETE FROM %s WHERE category_id = $1 AND user_id = $2", eventsTable)
 	_, err = tx.Exec(deleteEventsQuery, id, userId)
 	if err != nil {
-		tx.Rollback()
+		if err = tx.Rollback(); err != nil {
+			return err
+		}
 		return err
 	}
 
@@ -86,11 +92,15 @@ func (r *CategoryPostgres) Delete(userId, id int) error {
 	deleteCategoriesQuery := fmt.Sprintf("DELETE FROM %s WHERE category_id = $1 AND user_id = $2", categoriesTable)
 	_, err = tx.Exec(deleteCategoriesQuery, id, userId)
 	if err != nil {
-		tx.Rollback()
+		if err = tx.Rollback(); err != nil {
+			return err
+		}
 		return err
 	}
 
-	tx.Commit()
+	if err = tx.Commit(); err != nil {
+		return err
+	}
 
 	return nil
 }

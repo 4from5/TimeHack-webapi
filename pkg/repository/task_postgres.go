@@ -35,8 +35,8 @@ func (r *TaskPostgres) GetById(userId int, id int) (webApi.Task, error) {
 func (r *TaskPostgres) Create(userId int, task webApi.Task) (int, error) {
 	var returnedId int
 	fmt.Println("repository.TaskPostgres.Create: get", userId, task)
-	createTaskQuery := fmt.Sprintf("INSERT INTO %s (user_id, category_id, title, description, deadline, date_time, creation_date ,priority) VALUES($1,$2,$3,$4,$5,$6,$7,$8) RETURNING task_id", tasksTable)
-	row := r.db.QueryRow(createTaskQuery, userId, task.CategoryId, task.Title, task.Description, task.Deadline, task.DateTime, task.CreationDate, task.Priority)
+	createTaskQuery := fmt.Sprintf("INSERT INTO %s (user_id, category_id, title, description, deadline, date_time, creation_date ,priority, is_done) VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9) RETURNING task_id", tasksTable)
+	row := r.db.QueryRow(createTaskQuery, userId, task.CategoryId, task.Title, task.Description, task.Deadline, task.DateTime, task.CreationDate, task.Priority, task.IsDone)
 	if err := row.Scan(&returnedId); err != nil {
 		return 0, err
 	}
