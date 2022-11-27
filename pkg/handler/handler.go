@@ -82,6 +82,11 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 		}
 
+		week := api.Group("/week")
+		{
+			week.POST("/week", h.getWeek)
+		}
+
 	}
 	return router
 }
