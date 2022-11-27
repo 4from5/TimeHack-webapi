@@ -32,3 +32,11 @@ func (s *NotionService) Delete(userId, id int) error {
 	fmt.Println("service.NotionService.Delete: userId, id:", userId, " ", id)
 	return s.repo.Delete(userId, id)
 }
+
+func (s *NotionService) Update(userId, id int, input webApi.UpdateNotionInput) error {
+	fmt.Println("service.NotionService.Update: userId, id, input:", userId, " ", id, " ", input)
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, id, input)
+}

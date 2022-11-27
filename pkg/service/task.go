@@ -32,3 +32,10 @@ func (s *TaskService) Delete(userId, id int) error {
 	fmt.Println("service.TaskService.Delete: userId, id:", userId, " ", id)
 	return s.repo.Delete(userId, id)
 }
+func (s *TaskService) Update(userId, id int, input webApi.UpdateTaskInput) error {
+	fmt.Println("service.TaskService.Update: userId, id, input:", userId, " ", id, " ", input)
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, id, input)
+}

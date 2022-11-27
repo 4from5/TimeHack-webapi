@@ -79,18 +79,18 @@ VALUES (1, 'Личное', 'blue'),
 
 --                  Tasks
 INSERT INTO tasks(user_id, category_id, title, description, deadline, date_time, creation_date, priority, is_done)
-VALUES (1, 1, 'Встретиться с кентом', 'ну это с Тёмиком короче пересечься бы', '30 Nov 22',
-        '25 Nov 22', '25 Nov 22 12:02 MSK', 2, false),
-       (1, 1, 'Жёстко заняться саморазвитием', '', '1 Jan 70',
+VALUES (1, 1, 'Жёстко заняться саморазвитием', '', '1 Jan 70',
         '27 Nov 22', '27 Nov 22 11:10 MSK', 3, false),
        (1, 2, 'Курсач по ААСОИУ', 'Шуку надо чот написать так и не понял тип того', '29 Dec 22',
         '27 Nov 22', '12 Sep 22 12:00', 1, false),
-       (1, 2, 'ДЗ Тервер', '', '29 Nov 22',
-        '28 Nov 22', '27 Nov 22 11:37 MSK', 3, false),
        (1, 3, 'Жёстко зачилить с девушкой', '', '1 Jan 70',
         '30 Nov 22', '30 Nov 22', 2, false),
+       (1, 2, 'ДЗ Тервер', '', '29 Nov 22',
+        '28 Nov 22', '27 Nov 22 11:37 MSK', 3, false),
        (1, 3, 'Жёстко с парнями зачилить', 'в баньку сгонять', '1 Jan 70',
-        '1 Dec 22', '30 Nov 22', 3, false);
+        '1 Dec 22', '30 Nov 22', 3, false),
+       (1, 1, 'Встретиться с кентом', 'ну это с Тёмиком короче пересечься бы', '30 Nov 22',
+        '25 Nov 22', '25 Nov 22 12:02 MSK', 2, false);
 
 
 --                  Notions
@@ -98,10 +98,10 @@ INSERT INTO notions(user_id, category_id, title, notion_text, created_date, last
 VALUES (1, 1, 'Личный дневник',
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dictum ultricies dapibus. Pellentesque est nibh, posuere imperdiet diam sit amet, tincidunt vehicula lacus. Donec sed mollis libero, nec hendrerit eros. Nullam bibendum aliquet efficitur. Nulla sed scelerisque dolor. Curabitur tempor sit amet mauris a blandit. Vivamus blandit tincidunt quam, vitae auctor eros viverra vitae. Sed dolor felis, venenatis vitae libero ac, blandit varius mi. Suspendisse pellentesque est id arcu consectetur semper. Ut euismod dapibus urna. Aenean sit amet tortor orci. Praesent vel ligula libero.',
         '25 Nov 22 00:29 MSK', '25 Nov 22 00:32 MSK'),
-       (1, 1, 'Список кайфа', 'Пока списка нет но кайф точно есть',
-        '20 Nov 22 13:43 MSK', '23 Nov 22 00:29 MSK'),
        (1, 2, 'Долги по учёбе', 'А долгов то нет мы же крутые а вы чо хотели',
         '10 Nov 21 11:43 MSK', '20 Nov 22 13:43 MSK'),
+       (1, 1, 'Список кайфа', 'Пока списка нет но кайф точно есть',
+        '20 Nov 22 13:43 MSK', '23 Nov 22 00:29 MSK'),
        (1, 2, 'Физика ненавижу', 'тут формулы типа какие-то',
         '10 Nov 21 11:43 MSK', '10 Nov 22 11:43 MSK'),
        (1, 3, 'Список чилла нереального', 'А чилла то и нет потому что бомонка душит',
@@ -115,7 +115,22 @@ INSERT INTO events (user_id, category_id, title, description, start_timestamp, e
 VALUES (1, 1, 'Спортзал', 'В качалочку погнал братик', '26 Nov 22 20:00 MSK',
         '26 Nov 22 22:00 MSK', false, 'на семёновской крч', 7, '31 Dec 22 00:00 MSK'),
        (1, 2, 'Сделать аасоиу', 'там курсач', '26 Nov 22 20:00 MSK',
-        '26 Nov 22 20:00 MSK', true, '.', 0, '1 Jan 70 00:01 MSK'),
-       (1, 3, 'Жёсткий сон', '.', '27 Nov 22 00:00 MSK',
-        '27 Nov 22 06:00 MSK', true, 'в кроватке', 1, '30 Dec 22 00:00 MSK');
+        '27 Nov 22 20:00 MSK', true, '', 0, '1 Jan 70 00:01 MSK'),
+       (1, 3, 'Жёсткий сон', '', '27 Nov 22 00:00 MSK',
+        '27 Nov 22 06:00 MSK', false, 'в кроватке', 1, '30 Dec 22 00:00 MSK'),
+       (1, 1, 'Прогулка с преподшей по англу', '', '29 Nov 22 12:00 MSK',
+        '29 Nov 22 16:00 MSK', false, '', 0, '1 Jan 70 00:01 MSK'),
+       (1, 3, 'Шашлындос', 'Крутой расслабон 2022', '30 Nov 22 18:00 MSK',
+        '30 Nov 22 23:00 MSK', false, 'не забудь кепчупк', 0, '1 Jan 70 00:01 MSK'),
+       (1, 2, 'Подготовка к физике', 'жёсткий бот(', '25 Nov 22 12:00 MSK',
+        '25 Nov 22 14:00 MSK', false, 'хата', 7, '30 Dec 22 00:00 MSK'),
+       (1, 2, 'Технопарк лекция', 'Алгосы', '29 Nov 22 10:00 MSK',
+        '29 Nov 22 12:00 MSK', false, 'zoom.com/privet_poka_otdihay', 0, '1 Jan 70 00:01 MSK'),
+       (1, 3, 'ОТДЫХАТЬ', 'и не смей пытаться работать', '25 Nov 22',
+        '25 Nov 22', true, 'дома!!!', 0, '1 Jan 70 00:01 MSK'),
+       (1, 1, 'Больница', '', '27 Nov 22 10:00 MSK',
+        '27 Nov 22 13:00 MSK', false, '', 0, '1 Jan 70 00:01 MSK'),
+       (1, 2, 'Репетитор', 'нормальный мужик', '28 Nov 22 16:35',
+        '28 Nov 22 18:00', false, 'улица бота дом работа', 7, '1 Jan 23 00:01 MSK');
+
 

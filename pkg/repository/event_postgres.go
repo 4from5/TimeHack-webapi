@@ -4,6 +4,8 @@ import (
 	"fmt"
 	webApi "github.com/4from5/TimeHack-webapi"
 	"github.com/jmoiron/sqlx"
+	"github.com/sirupsen/logrus"
+	"strings"
 )
 
 type EventPostgres struct {
@@ -55,5 +57,74 @@ func (r *EventPostgres) Delete(userId int, id int) error {
 
 	_, err := r.db.Exec(query, id, userId)
 
+	return err
+}
+
+func (r *EventPostgres) Update(userId, id int, input webApi.UpdateEventInput) error {
+	setValues := make([]string, 0)
+	args := make([]interface{}, 0)
+	argId := 1
+
+	if input.Title != nil {
+		setValues = append(setValues, fmt.Sprintf("title=$%d", argId))
+		args = append(args, *input.Title)
+		argId++
+	}
+
+	if input.Description != nil {
+		setValues = append(setValues, fmt.Sprintf("description=$%d", argId))
+		args = append(args, *input.Description)
+		argId++
+	}
+
+	if input.StartTimestamp != nil {
+		setValues = append(setValues, fmt.Sprintf("start_timestamp=$%d", argId))
+		args = append(args, *input.StartTimestamp)
+		argId++
+	}
+
+	if input.EndTimestamp != nil {
+		setValues = append(setValues, fmt.Sprintf("end_timestamp=$%d", argId))
+		args = append(args, *input.EndTimestamp)
+		argId++
+	}
+
+	if input.IsFullDay != nil {
+		setValues = append(setValues, fmt.Sprintf("is_full_day=$%d", argId))
+		args = append(args, *input.IsFullDay)
+		argId++
+	}
+
+	if input.EventLocation != nil {
+		setValues = append(setValues, fmt.Sprintf("event_location=$%d", argId))
+		args = append(args, *input.EventLocation)
+		argId++
+	}
+
+	if input.RepeatPeriodDays != nil {
+		setValues = append(setValues, fmt.Sprintf("repeat_period_days=$%d", argId))
+		args = append(args, *input.RepeatPeriodDays)
+		argId++
+	}
+
+	if input.EndPeriodTimestamp != nil {
+		setValues = append(setValues, fmt.Sprintf("end_period_timestamp=$%d", argId))
+		args = append(args, *input.EndPeriodTimestamp)
+		argId++
+	}
+
+	setQuery := strings.Join(setValues, ", ")
+
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE user_id = $%d AND event_id = $%d",
+		eventsTable, setQuery, argId, argId+1)
+
+	args = append(args, userId, id)
+
+	logrus.Debugf("updateQuery: %s", query)
+	logrus.Debugf("args: %s", args)
+
+	fmt.Println(query)
+
+	_, err := r.db.Exec(query, args...)
 	return err
 }

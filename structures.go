@@ -5,6 +5,21 @@ import (
 	"time"
 )
 
+type Week struct {
+	Days []Day `json:"week"`
+}
+
+type WeekRequest struct {
+	FirstDay time.Time `json:"first_day"`
+	LastDay  time.Time `json:"last_day"`
+}
+
+type Day struct {
+	TasksCount     int `json:"tasks_count"`
+	EventsCount    int `json:"events_count"`
+	DeadlinesCount int `json:"deadlines_count"`
+}
+
 type Category struct {
 	Id     int    `json:"id" db:"category_id,omitempty"`
 	UserId int    `json:"user_id" db:"user_id"`
@@ -14,7 +29,7 @@ type Category struct {
 
 type Event struct {
 	Id                 int       `json:"id" db:"event_id,omitempty"`
-	UserId             int       `json:"user_id" db:"user_id" binding:"required"`
+	UserId             int       `json:"user_id" db:"user_id"`
 	CategoryId         int       `json:"category_id" db:"category_id" binding:"required"`
 	Title              string    `json:"title" db:"title" binding:"required"`
 	Description        string    `json:"description" db:"description"`
@@ -28,7 +43,7 @@ type Event struct {
 
 type Task struct {
 	Id           int       `json:"id" db:"task_id,omitempty"`
-	UserId       int       `json:"user_id" db:"user_id" binding:"required"`
+	UserId       int       `json:"user_id" db:"user_id"`
 	CategoryId   int       `json:"category_id" db:"category_id" binding:"required"`
 	Title        string    `json:"title" db:"title" binding:"required"`
 	Description  string    `json:"description" db:"description"`
@@ -41,7 +56,7 @@ type Task struct {
 
 type Notion struct {
 	Id          int       `json:"id" db:"notion_id,omitempty"`
-	UserId      int       `json:"user_id" db:"user_id" binding:"required"`
+	UserId      int       `json:"user_id" db:"user_id"`
 	CategoryId  int       `json:"category_id" db:"category_id" binding:"required"`
 	Title       string    `json:"title" db:"title" binding:"required"`
 	NotionText  string    `json:"notion_text" db:"notion_text"`
@@ -59,8 +74,62 @@ type UpdateCategoryInput struct {
 	Colour *string `json:"colour"`
 }
 
+type UpdateEventInput struct {
+	CategoryId         *int       `json:"category_id"`
+	Title              *string    `json:"title"`
+	Description        *string    `json:"description"`
+	StartTimestamp     *time.Time `json:"start_timestamp"`
+	EndTimestamp       *time.Time `json:"end_timestamp"`
+	IsFullDay          *bool      `json:"is_full_day"`
+	EventLocation      *string    `json:"event_location"`
+	RepeatPeriodDays   *int       `json:"repeat_period_days"`
+	EndPeriodTimestamp *time.Time `json:"end_period_timestamp"`
+}
+
+type UpdateTaskInput struct {
+	CategoryId  *int       `json:"category_id"`
+	Title       *string    `json:"title"`
+	Description *string    `json:"description"`
+	Deadline    *time.Time `json:"deadline"`
+	DateTime    *time.Time `json:"date_time"`
+	Priority    *int       `json:"priority"`
+	IsDone      *bool      `json:"is_done"`
+}
+
+type UpdateNotionInput struct {
+	CategoryId *int       `json:"category_id"`
+	Title      *string    `json:"title"`
+	NotionText *string    `json:"notion_text"`
+	LastUpdate *time.Time `json:"last_update"`
+}
+
+type UsernameInfo struct {
+	Username string `json:"username"`
+}
+
 func (i UpdateCategoryInput) Validate() error {
 	if i.Title == nil && i.Colour == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+func (i UpdateEventInput) Validate() error {
+	if i.Title == nil && i.CategoryId == nil && i.Description == nil && i.EndPeriodTimestamp == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+func (i UpdateNotionInput) Validate() error {
+	if i.Title == nil && i.CategoryId == nil && i.NotionText == nil && i.LastUpdate == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+func (i UpdateTaskInput) Validate() error {
+	if i.Title == nil && i.Description == nil && i.Deadline == nil && i.CategoryId == nil {
 		return errors.New("update structure has no values")
 	}
 	return nil

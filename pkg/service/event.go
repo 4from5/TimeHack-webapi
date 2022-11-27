@@ -40,7 +40,22 @@ func (s *EventService) GetSchedule(userId int, group webApi.Group) ([]webApi.Eve
 	return s.repo.GetAll(userId)
 }
 
+func (s *EventService) Download(userId int) {
+	fmt.Println("service.EventService.Download: id:", userId)
+	events, _ := s.repo.GetAll(userId)
+	fmt.Println(events)
+	Serialize(events)
+}
+
 func (s *EventService) Delete(userId, id int) error {
 	fmt.Println("service.EventService.Delete: userId, id:", userId, " ", id)
 	return s.repo.Delete(userId, id)
+}
+
+func (s *EventService) Update(userId, id int, input webApi.UpdateEventInput) error {
+	fmt.Println("service.CategoryService.Update: userId, id, input:", userId, " ", id, " ", input)
+	if err := input.Validate(); err != nil {
+		return err
+	}
+	return s.repo.Update(userId, id, input)
 }

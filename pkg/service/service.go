@@ -11,6 +11,14 @@ type Authorization interface {
 	ParseToken(token string) (int, error)
 }
 
+type Week interface {
+	GetDays(usedId int, input webApi.WeekRequest) ([]webApi.Day, error)
+}
+
+type User interface {
+	Get(userId int) (webApi.UsernameInfo, error)
+}
+
 type Categories interface {
 	Create(userId int, category webApi.Category) (int, error)
 	GetAll(userId int) ([]webApi.Category, error)
@@ -25,12 +33,15 @@ type Events interface {
 	GetById(userId, id int) (webApi.Event, error)
 	GetSchedule(userId int, group webApi.Group) ([]webApi.Event, error)
 	Delete(userId, id int) error
+	Download(userId int)
+	Update(userId, id int, input webApi.UpdateEventInput) error
 }
 type Notions interface {
 	GetAll(userId int) ([]webApi.Notion, error)
 	GetById(userId, id int) (webApi.Notion, error)
 	Create(userId int, notion webApi.Notion) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateNotionInput) error
 }
 
 type Tasks interface {
@@ -38,6 +49,7 @@ type Tasks interface {
 	GetById(userId, id int) (webApi.Task, error)
 	Create(userId int, task webApi.Task) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateTaskInput) error
 }
 
 type Service struct {
@@ -46,6 +58,8 @@ type Service struct {
 	Events
 	Notions
 	Tasks
+	User
+	Week
 }
 
 func NewService(repos *repository.Repository) *Service {
@@ -55,5 +69,7 @@ func NewService(repos *repository.Repository) *Service {
 		Events:        NewEventService(repos.Event),
 		Notions:       NewNotionService(repos.Notion),
 		Tasks:         NewTaskService(repos.Task),
+		User:          NewUserService(repos.User),
+		Week:          NewWeekService(repos.Week),
 	}
 }

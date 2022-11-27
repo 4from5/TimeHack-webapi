@@ -11,11 +11,21 @@ type Repository struct {
 	Task
 	Event
 	Notion
+	User
+	Week
 }
 
 type Authorization interface {
 	CreateUser(user webApi.User) (int, error)
 	GetUser(username, password string) (webApi.User, error)
+}
+
+type Week interface {
+	GetDays(userId int, input webApi.WeekRequest) ([]webApi.Day, error)
+}
+
+type User interface {
+	Get(userId int) (webApi.UsernameInfo, error)
 }
 
 type Category interface {
@@ -31,6 +41,7 @@ type Event interface {
 	GetAll(userId int) ([]webApi.Event, error)
 	GetById(userId, id int) (webApi.Event, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateEventInput) error
 }
 
 type Notion interface {
@@ -38,6 +49,7 @@ type Notion interface {
 	GetById(userId int, id int) (webApi.Notion, error)
 	Create(userId int, notion webApi.Notion) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateNotionInput) error
 }
 
 type Task interface {
@@ -45,6 +57,7 @@ type Task interface {
 	GetById(userId int, id int) (webApi.Task, error)
 	Create(userId int, notion webApi.Task) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateTaskInput) error
 }
 
 func NewRepository(db *sqlx.DB) *Repository {
@@ -54,5 +67,7 @@ func NewRepository(db *sqlx.DB) *Repository {
 		Event:         NewEventPostgres(db),
 		Notion:        NewNotionPostgres(db),
 		Task:          NewTaskPostgres(db),
+		User:          NewUserPostgres(db),
+		Week:          NewWeekPostgres(db),
 	}
 }

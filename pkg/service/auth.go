@@ -12,7 +12,7 @@ import (
 
 const (
 	salt      = "salt_for_hash"
-	tokenTTL  = 24 * time.Hour
+	tokenTTL  = 72 * time.Hour
 	signinKey = "token_decoding_key"
 )
 

@@ -24,8 +24,14 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		auth.POST("/sign-up", h.signUp)
 		auth.POST("/sign-in", h.signIn)
 	}
+
 	api := router.Group("/api", h.userIdentity)
 	{
+		user := api.Group("/user")
+		{
+			user.GET("/", h.getUsername)
+		}
+
 		categories := api.Group("/categories")
 		{
 			categories.GET("/", h.getCategories)
@@ -48,6 +54,9 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 			events.DELETE("/:id", h.deleteEvent)
 
+			events.GET("/download", h.Download)
+			events.PUT("/:id", h.updateEvent)
+
 		}
 
 		notions := api.Group("/notions")
@@ -58,6 +67,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			notions.POST("/", h.createNotion)
 
 			notions.DELETE("/:id", h.deleteNotion)
+			notions.PUT("/:id", h.updateNotion)
 
 		}
 		tasks := api.Group("/tasks")
@@ -67,12 +77,16 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 			tasks.POST("/", h.createTask)
 
-			tasks.DELETE("/:id", h.deleteNotion)
+			tasks.DELETE("/:id", h.deleteTask)
+			tasks.PUT("/:id", h.updateTask)
 
 		}
-		api.GET("/download", func(c *gin.Context) {
-			c.File("1.txt")
-		})
+
+		week := api.Group("/week")
+		{
+			week.POST("/", h.getWeek)
+		}
+
 	}
 	return router
 }

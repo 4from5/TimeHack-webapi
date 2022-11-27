@@ -118,3 +118,41 @@ func (h *Handler) deleteEvent(c *gin.Context) {
 
 	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
 }
+
+func (h *Handler) Download(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	h.services.Events.Download(userId)
+	c.FileAttachment("pkg/service/schedule1.ics", "ExportedCalendar.ics")
+}
+
+func (h *Handler) updateEvent(c *gin.Context) {
+	userId, err := getUserId(c)
+	if err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		newErrorResponse(c, http.StatusBadRequest, "invalid id param")
+		return
+	}
+
+	var input webapi.UpdateEventInput
+	if err = c.BindJSON(&input); err != nil {
+		newErrorResponse(c, http.StatusBadRequest, err.Error())
+		return
+	}
+
+	if err = h.services.Events.Update(userId, id, input); err != nil {
+		newErrorResponse(c, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	c.JSON(http.StatusOK, statusResponse{Status: "ok"})
+}
