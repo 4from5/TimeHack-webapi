@@ -67,6 +67,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			notions.POST("/", h.createNotion)
 
 			notions.DELETE("/:id", h.deleteNotion)
+			notions.PUT("/:id", h.updateNotion)
 
 		}
 		tasks := api.Group("/tasks")
@@ -77,6 +78,7 @@ func (h *Handler) InitRoutes() *gin.Engine {
 			tasks.POST("/", h.createTask)
 
 			tasks.DELETE("/:id", h.deleteNotion)
+			tasks.PUT("/:id", h.updateTask)
 
 		}
 

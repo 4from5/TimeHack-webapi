@@ -71,6 +71,23 @@ type UpdateEventInput struct {
 	EndPeriodTimestamp *time.Time `json:"end_period_timestamp"`
 }
 
+type UpdateTaskInput struct {
+	CategoryId  *int       `json:"category_id"`
+	Title       *string    `json:"title"`
+	Description *string    `json:"description"`
+	Deadline    *time.Time `json:"deadline"`
+	DateTime    *time.Time `json:"date_time"`
+	Priority    *int       `json:"priority"`
+	IsDone      *bool      `json:"is_done"`
+}
+
+type UpdateNotionInput struct {
+	CategoryId *int       `json:"category_id"`
+	Title      *string    `json:"title"`
+	NotionText *string    `json:"notion_text"`
+	LastUpdate *time.Time `json:"last_update"`
+}
+
 type UsernameInfo struct {
 	Username string `json:"username"`
 }
@@ -84,6 +101,20 @@ func (i UpdateCategoryInput) Validate() error {
 
 func (i UpdateEventInput) Validate() error {
 	if i.Title == nil && i.CategoryId == nil && i.Description == nil && i.EndPeriodTimestamp == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+func (i UpdateNotionInput) Validate() error {
+	if i.Title == nil && i.CategoryId == nil && i.NotionText == nil && i.LastUpdate == nil {
+		return errors.New("update structure has no values")
+	}
+	return nil
+}
+
+func (i UpdateTaskInput) Validate() error {
+	if i.Title == nil && i.Description == nil && i.Deadline == nil && i.CategoryId == nil {
 		return errors.New("update structure has no values")
 	}
 	return nil

@@ -37,6 +37,7 @@ type Notions interface {
 	GetById(userId, id int) (webApi.Notion, error)
 	Create(userId int, notion webApi.Notion) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateNotionInput) error
 }
 
 type Tasks interface {
@@ -44,6 +45,7 @@ type Tasks interface {
 	GetById(userId, id int) (webApi.Task, error)
 	Create(userId int, task webApi.Task) (int, error)
 	Delete(userId, id int) error
+	Update(userId, id int, input webApi.UpdateTaskInput) error
 }
 
 type Service struct {
