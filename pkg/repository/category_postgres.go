@@ -124,7 +124,7 @@ func (r *CategoryPostgres) Update(userId, id int, input webApi.UpdateCategoryInp
 
 	setQuery := strings.Join(setValues, ", ")
 
-	query := fmt.Sprintf("UPDATE %s SET %s WHERE user_id = %d AND category_id = %d",
+	query := fmt.Sprintf("UPDATE %s SET %s WHERE user_id = $%d AND category_id = $%d",
 		categoriesTable, setQuery, argId, argId+1) //DOn'T WORK
 
 	args = append(args, userId, id)
